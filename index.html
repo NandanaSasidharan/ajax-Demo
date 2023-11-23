@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Userdata</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <h1 class="text-center   m-5">UserData</h1>
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4" id="result"></div>
+        <div class="col-4"></div>
+    </div>
+</body>
+<script>
+const response= new XMLHttpRequest();
+response.open('get','https://jsonplaceholder.typicode.com/users')
+response.send();
+response.onreadystatechange =() =>{
+    if(response.readyState==4){
+        if(response.status>199 && response.status<300){
+            console.log(response.responseText);
+            let userArray=JSON.parse(response.responseText)
+            console.log(userArray);
+            displayData(userArray)
+        }
+        else{
+            alert('Cant find')
+        }
+    }
+}
+
+function displayData(userArray){
+    for(let user of userArray){
+        htmlData=`
+        <center>
+            <div class="card border-5 border-primary m-3 bg-light" style="width:18rem;">
+                <div class="card-body">
+                    <h3 class="card-title bg-success">User Details</h3> 
+                    <p class="card-text">Id:${user.id}</p><hr>
+                    <p class="card-text">Name:${user.name}</p><hr>
+                    <p class="card-text">Username:${user.username}</p><hr>
+                    <p class="card-text">Email:${user.email}</p><hr>
+                    <p class="card-text">Address:${user.address.place},${user.address.suite},${user.address.city},${user.address.zipcode},${user.address.geo.lat},${user.address.geo.lng}</p><hr>
+                    <p class="card-text">Phone:${user.phone}</p><hr>
+                    <p class="card-text">Website:${user.website}</p><hr>
+                    <p class="card-text">Company:${user.company.name},${user.company.catchphrase},${user.company.bs}</p><hr>
+                    
+                    
+                    </div>
+                    </div>
+
+            </center>
+        `
+            result.innerHTML += htmlData
+    }
+}
+
+
+
+</script>
+
+
+
+</html>
